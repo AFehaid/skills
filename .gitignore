@@ -1,0 +1,18 @@
+# python
+__pycache__/
+*.py[cod]
+# tool outputs & environments
+out/
+results/
+.venv/
+venv/
+# media & model artifacts — never commit large/local/data files
+*.wav
+*.mp3
+*.mp4
+*.m4a
+*.mkv
+*.mov
+*.flac
+*.bin
+*.safetensors
