@@ -1,0 +1,55 @@
+/* bidi.css — pair with bidi.js (which sets `dir` per block by counting strong
+   characters). These rules make alignment and list indentation FOLLOW that
+   per-block direction. Put your content inside a container with class "bidi":
+
+     <div class="bidi"> … rendered text / markdown HTML … </div>
+*/
+
+/* Align to the reading edge: right for rtl blocks, left for ltr. Never use a
+   hard-coded left/right here — `start` flips automatically with `dir`. */
+.bidi p, .bidi h1, .bidi h2, .bidi h3, .bidi h4, .bidi h5, .bidi h6,
+.bidi li, .bidi blockquote, .bidi td, .bidi th, .bidi dd, .bidi dt {
+  text-align: start;
+}
+
+/* Logical list indent so bullets/numbers sit on the side matching direction.
+   A physical margin-left/padding-left would keep Arabic markers on the wrong
+   (left) side even when the list text is RTL. Zero the physical values first so
+   a framework/reset default can't double-indent. */
+.bidi ul, .bidi ol {
+  margin-left: 0;
+  margin-right: 0;
+  margin-inline-start: 1.4em;
+  padding-inline-start: 0;
+}
+
+/* Do NOT give inline code/emphasis/links their own direction — let the parent
+   block's dir + the Unicode bidi algorithm keep embedded English/code readable
+   inside an Arabic paragraph. */
+.bidi code, .bidi strong, .bidi em, .bidi a, .bidi span {
+  unicode-bidi: inherit;
+}
+
+/* Tables in mixed content. */
+.bidi table td, .bidi table th { text-align: start; }
+
+/* -------------------------------------------------------------------------
+   PURE-CSS FALLBACK (no JavaScript).
+   `unicode-bidi: plaintext` makes each block pick direction from its FIRST
+   strong character — good enough when every block is a single language, but
+   weaker than bidi.js for lines that start with an English label then Arabic.
+   Use a different container class so it never fights the JS-set dir above:
+
+     <div class="bidi-auto"> … </div>
+   ------------------------------------------------------------------------- */
+.bidi-auto p, .bidi-auto li, .bidi-auto h1, .bidi-auto h2, .bidi-auto h3,
+.bidi-auto h4, .bidi-auto h5, .bidi-auto h6, .bidi-auto blockquote,
+.bidi-auto td, .bidi-auto th {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+.bidi-auto ul, .bidi-auto ol {
+  margin-left: 0;
+  margin-right: 0;
+  margin-inline-start: 1.4em;
+}
